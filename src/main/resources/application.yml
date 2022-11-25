@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: limeare
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://43.139.29.157:3306/reggie?serverTimezone=Asia/Shanghai&allowMultiQueries=true
+      username: root
+      password: limeare..1
+mybatis-plus:
+  configuration:
+#    在映射实体或者属性市，将下划线连接命名  映射为驼峰命名
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: assign_id
+limeare:
+  path: D:\img\
