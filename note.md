@@ -1,4 +1,4 @@
-#看到 P85
+#看到 P104
 
 后台访问路径：http://localhost:8080/backend/page/login/login.html
 
@@ -22,7 +22,7 @@
             CRUD
         菜品：
             CRUD
-            停售功能未做
+            
         
 
 [comment]: <> (//)
@@ -47,7 +47,7 @@
     
 
     不足：
-        身份验证、权限判断
+        身份验证、权限判断(可使用 spring security)
 
 
 
@@ -56,3 +56,25 @@
     
     登录功能：
         SMS 短信  验证码登录功能 ： 申请需要有相关资质
+
+
+
+还需实现的功能：
+
+
+```textmate
+后台订单
+
+AddressBookController():
+        update();//修改地址
+SetmealController:
+        dish();
+ShoppingCartController();       
+
+OrderController():
+        获取订单信息
+                
+```
+
+
+    

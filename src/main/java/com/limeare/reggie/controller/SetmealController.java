@@ -105,11 +105,34 @@ public class SetmealController {
         return R.success("套餐删除成功");
     }
 
+    //更新套餐
     @PutMapping
     public R<String> update(@RequestBody SetmealDto setmealDto){
         setmealService.updateWithDish(setmealDto);
 
         return R.success("套餐信息修改成功");
+    }
+
+    //
+    @GetMapping("/list")
+    public R<List<Setmeal>> list(Setmeal setmeal){
+
+        LambdaQueryWrapper<Setmeal> queryWrapper=new LambdaQueryWrapper<>();
+
+        queryWrapper.eq(setmeal.getCategoryId() != null,Setmeal::getCategoryId,setmeal.getCategoryId());
+        queryWrapper.eq(setmeal.getStatus() != null,Setmeal::getStatus,setmeal.getStatus());
+        queryWrapper.orderByDesc(Setmeal::getUpdateTime);
+
+        List<Setmeal> list = setmealService.list(queryWrapper);
+
+        return R.success(list);
+    }
+
+    //
+    @GetMapping("/dish/{id}")
+    public R<List<DishDto>> dish(@PathVariable Long id){
+
+        return null;
     }
 
 }

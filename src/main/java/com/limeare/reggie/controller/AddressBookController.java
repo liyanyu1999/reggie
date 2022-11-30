@@ -84,13 +84,25 @@ public class AddressBookController {
         return R.success(addressBookService.list(queryWrapper));
     }
 
-    //修改地址信息
+    @PutMapping
+    public R<String> update(@RequestBody AddressBook addressBook){
 
-    public R<String> update(){
-
+        Long id = addressBook.getId();
+        LambdaUpdateWrapper<AddressBook> updateWrapper=new LambdaUpdateWrapper<>();
+        updateWrapper.eq(AddressBook::getId,id);
+        addressBookService.update(addressBook,updateWrapper);
 
         return R.success("地址信息修改成功");
     }
 
+    @DeleteMapping
+    public R<String> delete(Long ids){
+
+        LambdaQueryWrapper<AddressBook> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(AddressBook::getId,ids);
+        addressBookService.remove(queryWrapper);
+
+        return R.success("已删除");
+    }
 
 }

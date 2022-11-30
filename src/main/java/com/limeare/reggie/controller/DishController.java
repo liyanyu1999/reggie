@@ -6,6 +6,7 @@ import com.limeare.reggie.common.R;
 import com.limeare.reggie.dto.DishDto;
 import com.limeare.reggie.entity.Category;
 import com.limeare.reggie.entity.Dish;
+import com.limeare.reggie.entity.DishFlavor;
 import com.limeare.reggie.service.CategoryService;
 import com.limeare.reggie.service.DishFlavorService;
 import com.limeare.reggie.service.DishService;
@@ -108,8 +109,24 @@ public class DishController {
     }
 
     //查询菜品数据
+//    @GetMapping("/list")
+//    public R<List<Dish>> list(Dish dish){
+//
+//        LambdaQueryWrapper<Dish> queryWrapper=new LambdaQueryWrapper();
+//        //查询条件
+//        queryWrapper.eq(dish.getCategoryId()!=null,Dish::getCategoryId,dish.getCategoryId());
+//        queryWrapper.eq(Dish::getStatus,1);
+//
+//        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+//
+//        List<Dish> list = dishService.list(queryWrapper);
+//
+//        return R.success(list);
+//    }
+
+    //查询菜品数据
     @GetMapping("/list")
-    public R<List<Dish>> list(Dish dish){
+    public R<List<DishDto>> list(Dish dish){
 
         LambdaQueryWrapper<Dish> queryWrapper=new LambdaQueryWrapper();
         //查询条件
@@ -120,8 +137,32 @@ public class DishController {
 
         List<Dish> list = dishService.list(queryWrapper);
 
-        return R.success(list);
+        List<DishDto> dishDtoList=list.stream().map((item)->{
+            DishDto dishDto=new DishDto();
+            //拷贝
+            BeanUtils.copyProperties(item,dishDto);
+
+            Long categoryId = item.getCategoryId();
+            //通过id查询分类
+            Category category = categoryService.getById(categoryId);
+
+            if (category!=null){
+                String categoryName = category.getName();
+                dishDto.setCategoryName(categoryName);
+            }
+
+            Long dishId = item.getId();
+            LambdaQueryWrapper<DishFlavor> queryWrapper1=new LambdaQueryWrapper<>();
+            queryWrapper1.eq(DishFlavor::getDishId,dishId);
+            List<DishFlavor> dishFlavorList = dishFlavorService.list(queryWrapper1);
+            dishDto.setFlavors(dishFlavorList);
+
+            return dishDto;
+        }).collect(Collectors.toList());
+
+        return R.success(dishDtoList);
     }
+
 
     //删除菜品
     @DeleteMapping
