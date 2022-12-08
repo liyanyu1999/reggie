@@ -1,14 +1,58 @@
 server:
   port: 8080
 spring:
+  shardingsphere:
+    sharding:
+      default-data-source-name: master
+
+    datasource:
+      names:
+        master,slave
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://43.139.29.157:3306/wm-limeare?serverTimezone=Asia/Shanghai&allowMultiQueries=true
+        username: root
+        password: limeare..1
+      slave:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://120.79.53.94:3306/wm-limeare?serverTimezone=Asia/Shanghai&allowMultiQueries=true
+        username: root
+        password: limeare..1
+      config:
+        masterslave:
+          #负载均衡  轮询
+          load-balance-algorithm-type: round_robin
+          name: dataSource
+          master-data-source-name: master
+          slave-data-source-names: slave
+      props:
+        sql:
+          show: true
+
+  main:
+    allow-bean-definition-overriding: true
+
   application:
     name: limeare
-  datasource:
-    druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://43.139.29.157:3306/reggie?serverTimezone=Asia/Shanghai&allowMultiQueries=true
-      username: root
-      password: limeare..1
+
+#  datasource:
+#    druid:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://43.139.29.157:3306/reggie?serverTimezone=Asia/Shanghai&allowMultiQueries=true
+#      username: root
+#      password: limeare..1
+
+  redis:
+    host: 43.139.29.157
+    port: 6379
+    password: limeare1
+    database: 0
+  cache:
+    redis:
+      time-to-live: 1800000
+
 mybatis-plus:
   configuration:
 #    在映射实体或者属性市，将下划线连接命名  映射为驼峰命名
@@ -17,5 +61,7 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: assign_id
+
 limeare:
   path: D:\img\
+

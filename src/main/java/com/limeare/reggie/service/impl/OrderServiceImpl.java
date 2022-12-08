@@ -64,9 +64,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
         long orderId = IdWorker.getId();//订单号
 
         //插入订单
-
         AtomicInteger amount=new AtomicInteger(0);
-
+        //记录订单详细信息
         List<OrderDetail> orderDetails=shoppingCarts.stream().map((item)->{
 
             OrderDetail orderDetail=new OrderDetail();
@@ -84,6 +83,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
 
         }).collect(Collectors.toList());
 
+        //设置订单信息
         orders.setNumber(String.valueOf(orderId));
         orders.setId(orderId);
         orders.setOrderTime(LocalDateTime.now());
@@ -107,6 +107,65 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
         //清空购物车
         shoppingCartService.remove(queryWrapper);
 
+    }
+
+    //更改订单状态
+    @Override
+    public void updateWithStatus(Orders orders) {
+        this.updateById(orders);
+    }
+
+    //再来一单
+    @Override
+    public void again(Long id) {
+
+        LambdaQueryWrapper<Orders> queryWrapper=new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<OrderDetail> queryWrapper1=new LambdaQueryWrapper<>();
+
+        queryWrapper.eq(Orders::getId,id);
+        Orders orders = this.getOne(queryWrapper);
+
+        long orderId = IdWorker.getId();
+
+        Orders againOrder =new Orders();
+
+        queryWrapper1.eq(OrderDetail::getOrderId,id);
+        //订单详细信息
+        List<OrderDetail> orderDetails = orderDetailService.list(queryWrapper1).stream().map((item)->{
+
+            OrderDetail orderDetail=new OrderDetail();
+
+            orderDetail.setOrderId(orderId);
+            orderDetail.setNumber(item.getNumber());
+            orderDetail.setDishFlavor(item.getDishFlavor());
+            orderDetail.setDishId(item.getDishId());
+            orderDetail.setSetmealId(item.getSetmealId());
+            orderDetail.setName(item.getName());
+            orderDetail.setImage(item.getImage());
+            orderDetail.setAmount(item.getAmount());
+
+            return orderDetail;
+
+        }).collect(Collectors.toList());
+
+        againOrder.setNumber(String.valueOf(orderId));
+        againOrder.setId(orderId);
+        againOrder.setOrderTime(LocalDateTime.now());
+        againOrder.setCheckoutTime(LocalDateTime.now());
+        againOrder.setStatus(2);
+        againOrder.setAmount(orders.getAmount());
+        againOrder.setUserId(orders.getUserId());
+        againOrder.setUserName(orders.getUserName());
+        againOrder.setConsignee(orders.getConsignee());
+        againOrder.setPhone(orders.getPhone());
+        againOrder.setAddressBookId(orders.getAddressBookId());
+        againOrder.setAddress(orders.getAddress());
+
+        this.save(againOrder);
+
+        orderDetailService.saveBatch(orderDetails);
 
     }
+
+
 }

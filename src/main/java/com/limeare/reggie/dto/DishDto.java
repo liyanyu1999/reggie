@@ -14,5 +14,7 @@ public class DishDto extends Dish {
     //菜品分类名
     private String categoryName;
 
+    //份数
     private Integer copies;
+
 }

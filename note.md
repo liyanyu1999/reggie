@@ -1,4 +1,4 @@
-#看到 P104
+#**项目笔记**：
 
 后台访问路径：http://localhost:8080/backend/page/login/login.html
 
@@ -50,8 +50,6 @@
         身份验证、权限判断(可使用 spring security)
 
 
-
-
 #### 前台：
     
     登录功能：
@@ -60,20 +58,35 @@
 
 
 还需实现的功能：
-
-
 ```textmate
-后台订单
+用户退订
 
-AddressBookController():
-        update();//修改地址
-SetmealController:
-        dish();
-ShoppingCartController();       
+用户信息页
 
-OrderController():
-        获取订单信息
+
+下单页修改地址
                 
+缓存
+    套餐缓存
+    后台管理端缓存
+
+前端页面图片替换
+    favicon.ico
+    logo.png
+    
+```
+
+```text
+Mysql主从复制  ==> 实现读写分离
+
+master:
+    server-id: 1
+    lihaihui
+    123456
+    
+slave:
+    server-id: 2
+    
 ```
 
 

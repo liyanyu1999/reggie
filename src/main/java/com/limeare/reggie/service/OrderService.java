@@ -6,4 +6,8 @@ import com.limeare.reggie.entity.Orders;
 public interface OrderService extends IService<Orders> {
 
     public void submit(Orders orders);
+
+    public void updateWithStatus(Orders orders);
+
+    public void again(Long id);
 }

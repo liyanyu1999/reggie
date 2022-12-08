@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
-        <title>菩提阁</title>
+        <title>玉华</title>
         <link rel="icon" href="../images/favico.ico">
         <!--不同屏幕尺寸根字体设置-->
         <script src="../js/base.js"></script>
@@ -65,6 +65,7 @@
                         this.msgFlag = false
                         // this.form.code = (Math.random()*1000000).toFixed(0)
                         sendMsgApi({phone:this.form.phone})
+                        this.$notify({ type:'success', message:'验证码已发送'});
                     }else{
                         this.msgFlag = true
                     }

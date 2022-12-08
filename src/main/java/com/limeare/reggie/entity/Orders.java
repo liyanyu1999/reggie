@@ -21,7 +21,6 @@ public class Orders implements Serializable {
     //订单状态 1待付款，2待派送，3已派送，4已完成，5已取消
     private Integer status;
 
-
     //下单用户id
     private Long userId;
 

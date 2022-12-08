@@ -21,4 +21,12 @@ function sendMsgApi(data){
     })
 }
 
+function getUserInfo(data){
+    return $axios({
+        'url': '/user/getUserInfo',
+        'method': 'post',
+        data
+    })
+}
+
   
