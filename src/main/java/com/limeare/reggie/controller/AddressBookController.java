@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.limeare.reggie.common.BaseContext;
 import com.limeare.reggie.common.R;
 import com.limeare.reggie.entity.AddressBook;
+import com.limeare.reggie.enumeration.DefaultAddress;
 import com.limeare.reggie.service.AddressBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,11 +35,11 @@ public class AddressBookController {
 
         LambdaUpdateWrapper<AddressBook> updateWrapper=new LambdaUpdateWrapper<>();
         updateWrapper.eq(AddressBook::getUserId,BaseContext.getCurrentId());
-        updateWrapper.set(AddressBook::getIsDefault,0);
+        updateWrapper.set(AddressBook::getIsDefault,DefaultAddress.STATUS_0.getValue());
 
         addressBookService.update(updateWrapper);
         //设置默认
-        addressBook.setIsDefault(1);
+        addressBook.setIsDefault(DefaultAddress.STATUS_1.getValue());
 
         addressBookService.updateById(addressBook);
         return R.success(addressBook);
@@ -61,7 +62,7 @@ public class AddressBookController {
 
         LambdaQueryWrapper<AddressBook> queryWrapper =new LambdaQueryWrapper<>();
         queryWrapper.eq(AddressBook::getUserId,BaseContext.getCurrentId());
-        queryWrapper.eq(AddressBook::getIsDefault,1);
+        queryWrapper.eq(AddressBook::getIsDefault, DefaultAddress.STATUS_1.getValue());
 
         AddressBook addressBook = addressBookService.getOne(queryWrapper);
 

@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
-        <title>玉华</title>
+        <title></title>
         <link rel="icon" href="../images/favico.ico">
         <!--不同屏幕尺寸根字体设置-->
         <script src="../js/base.js"></script>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="divItem">
                     <span>收货地址：</span> 
-                    <el-input placeholder=" 请输入收货地址" v-model="form.detail"  maxlength='140'/></el-input>
+                    <el-input type="textarea" autosize placeholder=" 请输入收货地址" v-model="form.detail"  maxlength='140'/></el-input>
                 </div>
                 <div class="divItem ">
                     <span>标签：</span> 
@@ -75,7 +75,7 @@
                             phone:undefined,//手机号
                             sex:'1',//0表示女 1 表示男
                             detail:'',//收货地址
-                            label:'公司',//标签
+                            label:'无',//标签
                         },
                         labelList:[
                             '无','公司','家','学校'

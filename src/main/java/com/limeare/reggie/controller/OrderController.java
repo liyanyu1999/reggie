@@ -7,6 +7,7 @@ import com.limeare.reggie.common.BaseContext;
 import com.limeare.reggie.common.R;
 import com.limeare.reggie.dto.OrdersDto;
 import com.limeare.reggie.entity.*;
+import com.limeare.reggie.enumeration.OrderStatusEnum;
 import com.limeare.reggie.service.AddressBookService;
 import com.limeare.reggie.service.OrderDetailService;
 import com.limeare.reggie.service.OrderService;
@@ -166,5 +167,17 @@ public class OrderController {
         Long id = orders.getId();
         orderService.again(id);
         return R.success("下单成功");
+    }
+
+    //取消订单
+    @DeleteMapping("/delete")
+    public R<String> delete(@RequestBody Orders orders){
+        Long id = orders.getId();
+        orders.setStatus(OrderStatusEnum.STATUS_5.getValue());
+        if(!orderService.saveOrUpdate(orders)){
+            return R.error("系统忙，请稍后重试");
+        }
+        return R.success("订单已取消");
+
     }
 }

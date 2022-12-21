@@ -48,7 +48,7 @@ public class UserController {
 
             log.info("验证码："+code);
 
-            return R.success("验证码已发送");
+            return R.success(code);
         }
 
         return R.error("短信发送失败");

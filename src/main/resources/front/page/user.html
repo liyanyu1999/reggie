@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
-    <title>玉华</title>
+    <title>个人中心</title>
     <link rel="icon" href="../images/favico.ico">
     <!--element-ui的样式-->
     <link rel="stylesheet" href="../../backend/plugins/element-ui/index.css" />
@@ -34,14 +34,14 @@
             <div class="divLinks">
                 <div class="item" @click="toAddressPage">
                     <img src="../images/locations.png"/>
-                    <span>地址管理</span>
                     <i class="el-icon-arrow-right"></i>
+                    <span class="linkTxt">地址管理</span>
                 </div>
                 <div class="divSplit"></div>
                 <div class="item" @click="toOrderPage">
                     <img src="../images/orders.png"/>
-                    <span>历史订单</span>
                     <i class="el-icon-arrow-right"></i>
+                    <span class="linkTxt">我的订单</span>
                 </div>
             </div>
             <div class="divOrders" v-if="order[0]">
@@ -63,6 +63,12 @@
                 </div>
                 <div class="btn" v-if="order[0].status === 4">
                     <div class="btnAgain" @click="addOrderAgain">再来一单</div>
+                </div>
+                <div class="btn" v-else-if="order[0].status === 1">
+                    <div class="btnAgain" @click="cancelOrder(order)">取消订单</div>
+                </div>
+                <div class="btn" v-else-if="order[0].status === 2">
+                    <div class="btnAgain" @click="cancelOrder(order)">取消订单</div>
                 </div>
             </div>
             <div class="quitLogin" @click="toPageLogin">
@@ -185,6 +191,14 @@
                         window.requestAnimationFrame(()=>{
                             window.location.href = '../index.html'
                         }) 
+                    }else{
+                        this.$notify({ type:'warning', message:res.msg});
+                    }
+                },
+                async cancelOrder(order){
+                    const res = await  cancelOrder({id:order.id})
+                    if (res.code ===1){
+                        window.location.reload();
                     }else{
                         this.$notify({ type:'warning', message:res.msg});
                     }

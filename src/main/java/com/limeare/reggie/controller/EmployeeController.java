@@ -2,6 +2,7 @@ package com.limeare.reggie.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.limeare.reggie.common.BaseContext;
 import com.limeare.reggie.common.R;
 import com.limeare.reggie.entity.Employee;
 import com.limeare.reggie.service.EmployeeService;
@@ -82,6 +83,7 @@ public class EmployeeController {
         LambdaQueryWrapper<Employee> queryWrapper=new LambdaQueryWrapper();
 
         queryWrapper.like(StringUtils.isNotEmpty(name),Employee::getName,name);
+        queryWrapper.ne(Employee::getId,1);
         queryWrapper.orderByDesc(Employee::getUpdateTime);
 
        employeeService.page(pageInfo, queryWrapper);
@@ -102,6 +104,10 @@ public class EmployeeController {
     //通过id查询员工
     @GetMapping("/{id}")
     public R<Employee> getById(@PathVariable Long id){
+        Long currentId = BaseContext.getCurrentId();
+        if(id==1 && currentId!=1){
+            return R.error("没有查询到员工信息");
+        }
         Employee employee=employeeService.getById(id);
         if (employee!=null){
             return R.success(employee);
