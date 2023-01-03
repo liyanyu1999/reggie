@@ -11,15 +11,15 @@ spring:
       master:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://43.139.29.157:3306/wm-limeare?serverTimezone=Asia/Shanghai&allowMultiQueries=true
+        url: jdbc:mysql://localhost:3306/wm-limeare?serverTimezone=Asia/Shanghai&allowMultiQueries=true
         username: root
-        password: limeare..1
+        password: root
       slave:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://120.79.53.94:3306/wm-limeare?serverTimezone=Asia/Shanghai&allowMultiQueries=true
+        url: jdbc:mysql://localhost:3306/wm-limeare?serverTimezone=Asia/Shanghai&allowMultiQueries=true
         username: root
-        password: limeare..1
+        password: root
       config:
         masterslave:
           #负载均衡  轮询
@@ -40,14 +40,14 @@ spring:
 #  datasource:
 #    druid:
 #      driver-class-name: com.mysql.cj.jdbc.Driver
-#      url: jdbc:mysql://43.139.29.157:3306/reggie?serverTimezone=Asia/Shanghai&allowMultiQueries=true
+#      url: jdbc:mysql://localhost:3306/reggie?serverTimezone=Asia/Shanghai&allowMultiQueries=true
 #      username: root
-#      password: limeare..1
+#      password: root
 
   redis:
-    host: 43.139.29.157
+    host: 
     port: 6379
-    password: limeare1
+    password: 
     database: 0
   cache:
     redis:
